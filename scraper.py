@@ -18,6 +18,7 @@ async def main():
         page = await context.new_page()
 
         await page.goto(url)
+
         await page.get_by_text(re.compile("^\d+\sCompanies$", re.IGNORECASE)).click()
         
         base_locator = page.locator(".modal-body").locator(".row.m-2").locator(".col-10")
@@ -54,9 +55,27 @@ async def main():
             
         await browser.close()
 
+def enter_url():
+    while True:
+        pattern = f"^https?://"
+        url = input('Enter leak site address: ')
+        if re.match(pattern, url):
+            return url 
+        else:
+            print('Incorrect format. (Try: http(s)://...)')
 
-url = input('Enter leak site address: ')
-company_name = input('Enter company name: ')
+def enter_company_name():
+    while True:
+        pattern = f"^\w+\s*"
+        company_name = input('Enter company name: ')
+        if re.match(pattern, company_name):
+            return company_name
+        else:
+            print('You must enter a company name.')
+
+
+url = enter_url()
+company_name = enter_company_name()
 os.mkdir(company_name)
 
 if __name__ == '__main__':
